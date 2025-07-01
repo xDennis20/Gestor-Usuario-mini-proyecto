@@ -1,8 +1,11 @@
 #Logica
+from Historial import Historial
+
 class GestorUsuario:
     def __init__(self):
         self.lista_usuarios = []
-
+        self.historial = Historial()
+        self.historial.cargar_json()
     @staticmethod
     def registrar_usuario():
         nombre = input("Ingrese su nombre: ").strip()
@@ -17,8 +20,10 @@ class GestorUsuario:
         return diccionario_usuario
 
     def agregar_usuario(self,usuario: dict):
-        if self.buscar_usuario(usuario.get("correo") is None):
+        verificar_correo = self.buscar_usuario(usuario.get("correo"))
+        if verificar_correo is None:
             self.lista_usuarios.append(usuario)
+            self.historial.guardar_json(self.lista_usuarios)
             print("Usuario Agregado Correctamente Al Gestor")
         else:
             print("El correo ya existe, No se agrego el usuario")
@@ -35,6 +40,13 @@ class GestorUsuario:
             if usuario.get("edad") >= 18:
                 lista_usuarios_mayores.append(usuario)
         return lista_usuarios_mayores
+
+    def mostrar_usuarios(self):
+        for u in self.lista_usuarios:
+            print("Usuario:\n"
+                  f"Nombre: {u.get("nombre")}\n"
+                  f"Edad: {u.get("edad")}\n"
+                  f"Correo: {u.get("correo")}\n")
 
     def eliminar_usuario(self,correo_usuario):
         usuario_eliminado = False

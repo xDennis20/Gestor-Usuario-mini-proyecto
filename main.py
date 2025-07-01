@@ -45,9 +45,7 @@ while True:
             print("No se encontró el usuario.")
 
     elif opcion == "6":
-        print("Usuarios actuales:")
-        for u in gestor.lista_usuarios:
-            print(u)
+        gestor.mostrar_usuarios()
 
     elif opcion == "7":
         print("¡Hasta luego!")
